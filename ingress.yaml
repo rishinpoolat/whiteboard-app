@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: foo
+  namespace: default
+
+spec:
+  rules:
+    - host: k8.whiteboard.com
+      http:
+        paths:
+          - path: /api
+            pathType: Exact
+            backend:
+              service:
+                name:  whiteboard-api
+                port:
+                  number: 5000

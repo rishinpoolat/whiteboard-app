@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-k8s-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-k8s-app
+  template:
+    metadata:
+      labels:
+        app: node-k8s-app
+    spec:
+      containers:
+        - name: node-k8s-app
+          image: jawad571/whiteboard-backend
+          ports:
+            - containerPort: 5000
+
