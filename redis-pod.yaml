@@ -1,0 +1,14 @@
+# redis-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-pod
+  labels:
+    app: redis
+spec:
+  containers:
+  - name: redis-container
+    image: redis:latest
+    ports:
+    - containerPort: 6379
+
