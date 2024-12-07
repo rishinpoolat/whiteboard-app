@@ -1,0 +1,53 @@
+# backend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whiteboard-backend
+  namespace: whiteboard
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: whiteboard-backend
+  template:
+    metadata:
+      labels:
+        app: whiteboard-backend
+    spec:
+      containers:
+        - name: whiteboard-backend
+          image: rishin9847/whiteboard-backend:v1
+          ports:
+            - containerPort: 5000
+          env:
+            - name: REDIS_SERVER_IP
+              value: "redis-service"
+            - name: PORT
+              value: "5000"
+            - name: INTERVAL
+              value: "5000"
+            - name: REDIS_PORT
+              value: "6379"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 45
+            periodSeconds: 20
+            failureThreshold: 3
+            timeoutSeconds: 5
